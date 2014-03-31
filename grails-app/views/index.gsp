@@ -84,6 +84,8 @@
             <sec:ifAnyGranted roles="ROLE_ADMIN"> 
               <li><g:link controller="autorizaCierre" action="list" title="Autorización Cierre">Autorizaci&oacute;n Cierre</g:link></li>
             </sec:ifAnyGranted>
+			
+			<li><g:link controller="stadisticUsers" action="index" title="Rotacion">Rotaci&oacuten</g:link></li>
             
             <li><BR/></li>
             <li>
@@ -93,7 +95,7 @@
               </g:link>
             </sec:ifLoggedIn>  
             </li>
-			<li><g:link controller="stadisticUsers" action="index" title="Rotacion">Rotaci&oacuten</g:link></li>
+			
           </ul>
           
           
@@ -298,7 +300,7 @@
           <td rowspan="2"  style="padding: 0px">
             <img src="${resource(dir:'images/panel-adm',file:'Panel_08.gif')}" width="6" height="156" alt=""></td>
           <td style="padding: 0px">
-          rotaci
+         
          <g:link controller="user" title="Registro de usuarios">
               <img src="${resource(dir:'images/panel-adm',file:'Panel_09.gif')}" width="76" height="106" alt="" border="0">
             </g:link>
