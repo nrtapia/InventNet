@@ -1,0 +1,86 @@
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+em { font-weight: bold; padding-right: 1em; vertical-align: top; }
+
+.stock{
+    text-align: right;
+    width: 40px;
+}
+
+.ref{    
+    width: 40px;
+}
+
+.proveedor{    
+    width: 50px;
+}
+
+.articulo{    
+    width: 80px;
+}
+
+.valor{    
+    text-align: right;
+    width: 60px;
+}
+
+#lista {
+    position:absolute;
+    left:12px;
+    top:162px;
+    width:500px;
+    height:384px;
+    /*z-index:-4;*/
+    overflow: scroll;
+}
+
+
+#movimiento {
+    position:absolute;
+    /*left:661px;*/
+    left:189px;
+    top:133px;
+    width:326px;
+    height:22px;
+    z-index:10;
+    text-align: right;
+}
+
+
+#footer {
+    position:absolute;
+    /*left:864px;*/
+    left:12px;
+    top:553px;
+    width:422px;
+    height:27px;    
+    font-style: italic;    
+}
+
+#botones {
+    position:absolute;
+    /*left:864px;*/
+    left:392px;
+    top:553px;
+    width:122px;
+    height:27px;
+    /*z-index:6;*/
+    text-align: right;
+}
+
+#proveedor {
+    position:absolute;
+    left:330px;
+    top:133px;
+    width:327px;
+    height:22px;
+    z-index:7;
+}
+
+#sucursal {
+    position:absolute;
+    left:12px;
+    top:133px;
+    width:314px;
+    height:22px;
+    /*z-index:2;*/
+}

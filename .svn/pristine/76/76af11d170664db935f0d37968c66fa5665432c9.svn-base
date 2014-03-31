@@ -1,0 +1,79 @@
+#footer {
+	position:absolute;
+	left:864px;
+	top:580px;
+	width:122px;
+	height:27px;
+	z-index:6;
+}
+
+#inclide.all{
+    background: #fff url(../images/arrow_down.png) bottom repeat-x;
+}
+
+#exclude.all{
+    background: #fff url(../images/arrow_up.png) bottom repeat-x;
+}
+
+#proveedores {
+    position:absolute;
+    left:11px;
+    top:192px;
+    width:238px;
+    height:384px;
+    z-index:1;    
+}
+#bodega {    
+    position:absolute;
+    left:11px;
+    top:160px;
+    width:236px;
+    height:33px;
+    z-index:2;
+    border: 1px solid #ccc;
+}
+#articulos {
+    position:absolute;
+    left:252px;
+    top:160px;
+    width:735px;
+    height:196px;
+    z-index:3;
+    border: 1px solid #ccc;
+    /*
+    border-style:solid;
+    border-color:#000;
+    border-width: 1px;
+    */
+    overflow: scroll;
+}
+
+#articulos-salida {
+    position:absolute;
+    left:252px;
+    top:160px;
+    width:735px;
+    height:417px;
+    z-index:3;
+    border: 1px solid #ccc;
+    overflow: scroll;
+}
+
+#catalogo {
+    position:absolute;
+    left:252px;
+    top:359px;    
+    width:735px;
+    height:217px;
+    z-index:4;
+    border: 1px solid #ccc;
+    overflow: scroll;
+}
+#options {
+    position:absolute;
+    left:939px;
+    top:134px;
+    width:48px;
+    height:23px;
+    z-index:5;
+}

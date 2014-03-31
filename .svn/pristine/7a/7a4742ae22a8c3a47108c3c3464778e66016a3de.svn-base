@@ -1,0 +1,18 @@
+#Grails Metadata file
+#Tue Aug 14 06:16:39 COT 2012
+app.grails.version=2.0.4
+app.name=InventNet
+app.servlet.version=2.4
+app.version=3.7
+plugins.dynamic-controller=0.3
+plugins.export=1.1
+plugins.famfamfam=1.0.1
+plugins.google-analytics=2.0
+plugins.hibernate=2.0.4
+plugins.jasper=1.5.3
+plugins.jquery=1.7.1
+plugins.jquery-ui=1.8.15
+plugins.searchable=0.6.3
+plugins.spring-security-core=1.2.7.3
+plugins.spring-security-ui=0.2
+plugins.tomcat=2.0.4

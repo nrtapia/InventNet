@@ -1,0 +1,53 @@
+#lista {
+    position:absolute;
+    left:12px;
+    top:162px;
+    width:975px;
+    height:384px;
+    /*z-index:-4;*/
+    overflow: scroll;
+}
+#fecha {
+    position:absolute;
+    left:802px;
+    top:105px;
+    width:185px;
+    height:23px;
+    /*z-index:200;*/
+    text-align: right;    
+}
+#botones {
+    position:absolute;
+    left:864px;
+    top:553px;
+    width:122px;
+    height:27px;
+    /*z-index:6;*/
+    text-align: right;
+}
+#proveedor {
+    position:absolute;
+    left:330px;
+    top:133px;
+    width:327px;
+    height:22px;
+    z-index:7;
+}
+#movimiento {
+    position:absolute;
+    left:665px;
+    top:133px;
+    width:326px;
+    height:22px;
+    /*z-index:8;*/
+    text-align: right;
+}
+
+#sucursal {
+    position:absolute;
+    left:12px;
+    top:133px;
+    width:314px;
+    height:22px;
+    /*z-index:2;*/
+}

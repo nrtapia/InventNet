@@ -1,0 +1,33 @@
+package invent.net
+
+class AjustesController {
+    
+    def commonService
+    def movimientosService
+
+    def list = {         
+        def listbdg = commonService.listWarehouses(1)
+        def listmvn = Movimiento.findAll("from Movimiento as m order by m.abrevia, m.detalle", [cache:true])
+        
+        [listBdg:listbdg, listMov:listmvn]    
+    }
+    
+    def listMovement = {
+        log.info "-- Buscando movimientos para bodega:${params.bodegaid} movimiento:${params.movtoid} fecha:${params.fechaid}"
+        
+        def date = commonService.transformDate(params.fechaid)        
+        
+        def list = movimientosService.findMovements( params.bodegaid, params.movtoid, date )
+        def model = [catalogoList:list]
+        render( template:'articulos', model:model )          
+    }
+    
+    def deleteMovement ={
+        log.info "-- Ajustando movimiento id: ${params.idinv}"
+        
+        def resp = movimientosService.adjust( params.idinv )
+        
+        response.contentType = "text/javascript" 
+        render "alert('${resp} articulos ajustados del inventario')"                 
+    }
+}

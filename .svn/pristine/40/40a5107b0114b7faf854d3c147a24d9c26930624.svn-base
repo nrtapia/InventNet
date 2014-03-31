@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="catalogo-gnr" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="bodegaid" class="java.lang.String"/>
+	<parameter name="qrybdg" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[( $P{bodegaid} == "" ? " " : " and catalogo.bodega_id = " + $P{bodegaid} )]]></defaultValueExpression>
+	</parameter>
+	<parameter name="proveedorid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="qryprv" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[( $P{proveedorid}.isEmpty() ? "" : " and catalogo.proveedor_id = " + $P{proveedorid} )]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     catalogo.`cantidad` AS catalogo_cantidad,
+     catalogo.`valor` AS catalogo_valor,
+     catalogo.`costo` AS catalogo_costo,
+     catalogo.`id` AS catalogo_id,
+     articulo.`id` AS articulo_id,
+     articulo.`codigo` AS articulo_codigo,
+     articulo.`descripcion` AS articulo_descripcion,
+     articulo.`referencia` AS articulo_referencia,
+     bodega.`nombre` AS bodega_nombre,
+     tipo_articulo.`detalle` AS tipo_articulo_detalle,
+     genero.`detalle` AS genero_detalle,
+     cualidades_articulo.`detalle` AS cualidades_articulo_detalle,
+     clase_articulo.`detalle` AS clase_articulo_detalle ,
+ prv.razon_social as nomprv, prv.codigo as codigoprv
+FROM `catalogo` catalogo
+     INNER JOIN `articulo` articulo ON articulo.`id` = catalogo.`articulo_id`
+     INNER JOIN `bodega` bodega ON catalogo.`bodega_id` = bodega.`id`
+     INNER JOIN `tipo_articulo` tipo_articulo ON articulo.`tipo_articulo_id` = tipo_articulo.`id`
+     INNER JOIN `genero` genero ON articulo.`genero_id` = genero.`id`
+     INNER JOIN `cualidades_articulo` cualidades_articulo ON articulo.`cualidades_articulo_id` = cualidades_articulo.`id`
+     INNER JOIN `clase_articulo` clase_articulo ON articulo.`clase_articulo_id` = clase_articulo.`id`
+    INNER join proveedor prv on catalogo.proveedor_id = prv.id
+WHERE 1=1 and catalogo.valor>0  $P!{qrybdg} $P!{qryprv}
+ORDER BY  genero.`detalle`,
+          prv.codigo,
+          tipo_articulo.`detalle`,
+          clase_articulo.`detalle`,
+          cualidades_articulo.`detalle`,
+          articulo.`referencia`,
+          articulo.`descripcion`]]>
+	</queryString>
+	<field name="catalogo_cantidad" class="java.lang.Integer"/>
+	<field name="catalogo_valor" class="java.math.BigDecimal"/>
+	<field name="catalogo_id" class="java.lang.Long"/>
+	<field name="articulo_id" class="java.lang.Long"/>
+	<field name="articulo_codigo" class="java.lang.String"/>
+	<field name="articulo_descripcion" class="java.lang.String"/>
+	<field name="articulo_referencia" class="java.lang.String"/>
+	<field name="bodega_nombre" class="java.lang.String"/>
+	<field name="tipo_articulo_detalle" class="java.lang.String"/>
+	<field name="genero_detalle" class="java.lang.String"/>
+	<field name="cualidades_articulo_detalle" class="java.lang.String"/>
+	<field name="clase_articulo_detalle" class="java.lang.String"/>
+	<field name="catalogo_costo" class="java.math.BigDecimal"/>
+	<field name="nomprv" class="java.lang.String"/>
+	<field name="codigoprv" class="java.lang.String"/>
+	<variable name="PRV_CANT_SUM" class="java.lang.Integer" resetType="Group" resetGroup="genero" incrementType="Group" incrementGroup="bodega" calculation="Sum">
+		<variableExpression><![CDATA[$F{catalogo_cantidad}]]></variableExpression>
+	</variable>
+	<variable name="PRV_SUB_SUM" class="java.math.BigDecimal" resetType="Group" resetGroup="genero" calculation="Sum">
+		<variableExpression><![CDATA[$F{catalogo_cantidad}*$F{catalogo_valor}]]></variableExpression>
+	</variable>
+	<variable name="BDG_CANT_SUM" class="java.lang.Integer" resetType="Group" resetGroup="bodega" calculation="Sum">
+		<variableExpression><![CDATA[$F{catalogo_cantidad}]]></variableExpression>
+	</variable>
+	<variable name="BDG_SUB_SUM" class="java.math.BigDecimal" resetType="Group" resetGroup="bodega" calculation="Sum">
+		<variableExpression><![CDATA[$F{catalogo_cantidad}*$F{catalogo_valor}]]></variableExpression>
+	</variable>
+	<group name="bodega">
+		<groupExpression><![CDATA[$F{bodega_nombre}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<rectangle>
+					<reportElement key="rectangle" x="2" y="4" width="555" height="15"/>
+				</rectangle>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" x="50" y="6" width="211" height="13"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bodega_nombre}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="staticText" x="6" y="6" width="44" height="16"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Sucursal:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="27">
+				<textField pattern="###0" isBlankWhenNull="false">
+					<reportElement key="textField" x="457" y="6" width="34" height="12"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{BDG_CANT_SUM}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement key="line" x="3" y="4" width="555" height="1"/>
+				</line>
+				<textField pattern="#,##0.00" isBlankWhenNull="false">
+					<reportElement key="textField" x="494" y="6" width="61" height="12"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{BDG_SUB_SUM}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" x="206" y="6" width="244" height="12"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total x Sucursal " + $F{bodega_nombre}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement key="line" x="3" y="18" width="555" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="genero">
+		<groupExpression><![CDATA[$F{genero_detalle}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" x="7" y="2" width="218" height="11"/>
+					<textElement>
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{genero_detalle}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement key="line" x="3" y="13" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="1.0" lineStyle="Dotted"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement key="staticText" x="457" y="0" width="34" height="13"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Cant]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText" x="421" y="0" width="34" height="13"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Valor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText" x="511" y="0" width="44" height="13"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Subtotal]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText" x="354" y="0" width="34" height="13"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Costo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText" x="219" y="0" width="65" height="13"/>
+					<textElement>
+						<font fontName="SansSerif" size="8" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Proveedor]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="17">
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" x="206" y="2" width="244" height="12"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total x Genero " + $F{genero_detalle}.trim()]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0" isBlankWhenNull="false">
+					<reportElement key="textField" x="457" y="2" width="34" height="12"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRV_CANT_SUM}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement key="line" x="3" y="15" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="1.0" lineStyle="Dotted"/>
+					</graphicElement>
+				</line>
+				<textField pattern="#,##0.00" isBlankWhenNull="false">
+					<reportElement key="textField" x="494" y="2" width="61" height="12"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PRV_SUB_SUM}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<rectangle>
+				<reportElement key="rectangle" x="3" y="5" width="554" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="26" y="9" width="289" height="16"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Catalogo de Articulos x Genero]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="false">
+				<reportElement key="textField" x="475" y="9" width="70" height="16"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="0" y="1" width="55" height="12"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{articulo_codigo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="55" y="1" width="162" height="12"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_articulo_detalle}.trim()+" "+$F{genero_detalle}.trim()+" "+
+$F{clase_articulo_detalle}.trim()+" "+$F{cualidades_articulo_detalle}.trim()+" "+
+$F{articulo_referencia}.trim()+" "+$F{articulo_descripcion}.trim()]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement key="textField" x="494" y="1" width="61" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{catalogo_cantidad}*$F{catalogo_valor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0" isBlankWhenNull="false">
+				<reportElement key="textField" x="457" y="1" width="34" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{catalogo_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement key="textField" x="391" y="1" width="64" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{catalogo_valor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement key="textField" x="345" y="1" width="45" height="12"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{catalogo_costo} == null ? 0 : $F{catalogo_costo})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement key="textField" x="219" y="1" width="124" height="12"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoprv}.trim() +" " + $F{nomprv}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="33" width="572" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField evaluationTime="Report">
+				<reportElement x="550" y="36" width="21" height="15"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="36" width="80" height="15"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
